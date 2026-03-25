@@ -7,51 +7,45 @@ class MmoBomb:
         self.session.headers = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 11; RMX2086 Build/RKQ1.200928.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/101.0.4951.61 Mobile Safari/537.36"
         }
-    
+
+    def _get(self, endpoint: str) -> dict:
+        return self.session.get(f"{self.api}{endpoint}").json()
+
     def get_games(self) -> dict:
-        return self.session.get(f"{self.api}/games").json()
-    
+        return self._get("/games")
+
     def get_games_by_platform(
-            self,
-            platform: str = "pc") -> dict:
-        return self.session.get(
-            f"{self.api}/games?platform={platform}").json()
-    
-    def get_games_by_category(
-            self,
-            category: str) -> dict:
-        return self.session.get(
-            f"{self.api}/games?category={category}").json()
-    
+            self, platform: str = "pc") -> dict:
+        return self._get(f"/games?platform={platform}")
+
+    def get_games_by_category(self, category: str) -> dict:
+        return self._get(f"/games?category={category}")
+
     def get_games_by_tag(self, tag: str) -> dict:
-        return self.session.get(
-            f"{self.api}/games?tag={tag}").json()
-    
+        return self._get(f"/games?tag={tag}")
+
     def sort_games(self, sort: str) -> dict:
-        return self.session.get(
-            f"{self.api}/games?sort-by={sort}").json()
-    
+        return self._get(f"/games?sort-by={sort}")
+
     def get_games_by_all(
             self,
             platform: str = "browser",
             category: str = "mmorpg",
             sort: str = "release-date") -> dict:
-        return self.session.get(
-            f"{self.api}/games?platform={platform}&category={category}&sort-by={sort}").json()
-    
+        return self._get(
+            f"/games?platform={platform}&category={category}&sort-by={sort}")
+
     def filter_games(
             self,
             platform: str = "pc",
             tag: str = "3d.mmorpg.fantasy.pvp") -> dict:
-        return self.session.get(
-            f"{self.api}/filter?tag={tag}&platform={platform}").json()
-        
+        return self._get(f"/filter?tag={tag}&platform={platform}")
+
     def get_game_details(self, game_id: int) -> dict:
-        return self.session.get(
-            f"{self.api}/game?id={game_id}").json()
-    
+        return self._get(f"/game?id={game_id}")
+
     def get_mmo_giveaways(self) -> dict:
-        return self.session.get(f"{self.api}/giveaways").json()
-    
+        return self._get("/giveaways")
+
     def get_latest_mmo_news(self) -> dict:
-        return self.session.get(f"{self.api}/latestnews").json()
+        return self._get("/latestnews")
